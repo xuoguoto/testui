@@ -1,0 +1,55 @@
+id: users
+type: PageHeaderMenu
+properties:
+  title: User Management # The title in the browser tab.
+layout:
+  contentJustify: center # Center the contents of the page.
+requests:
+  - id: get_users
+    type: AxiosHttp
+    connectionId: jsonplaceholder_api
+    properties:
+      url: http://jsonplaceholder.typicode.com/users/1
+events:
+  onInit:
+    - id: fetch_data # Fetch the request data before the page renders in order to populate the charts
+      type: Request
+      params: 
+        - get_users
+areas:
+  content:
+    blocks:
+      - id: content_card
+        type: Card
+        layout:
+          span: 16
+          contentGutter: 16 # Make a 16px gap between all blocks in this card.
+        blocks:
+          - id: page_heading
+            type: Title
+            properties:
+              content: Display a User # Change the title on the page.
+              level: 4 # Make the title a little smaller (an html `<h3>`).
+          - id: table_card
+            type: Card
+            properties:
+              title: List of users in json placeholder API
+            blocks:
+              - id: table
+                type: AgGridAlpine
+                properties:
+                  theme: basic
+                  rowData:
+                    _request: get_users
+                  defaultColDef: # Define default column definitions that apply to all the defined columns
+                    sortable: true # Enables sorting on the columns when the header is clicked
+                    resizable: true # Enables resizing of column widths
+                    filter: true # Enables filtering of the columns using agGrid's default filter
+                  columnDefs: # Define all the columns
+                    - headerName: Name # Display name
+                      field: name # The field name in the data
+                      width: 350
+                    - headerName: Username
+                      field: username
+                      width: 100
+  

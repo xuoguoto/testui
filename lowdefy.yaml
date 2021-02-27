@@ -1,0 +1,37 @@
+lowdefy: 3.10.2
+name: Lowdefy starter
+
+types:
+  AgGridAlpine:
+    url: https://blocks-cdn.lowdefy.com/v3.10.1/blocks-aggrid/meta/AgGridAlpine.json
+
+connections:
+  - id: jsonplaceholder_api
+    type: AxiosHttp
+
+menus:
+  - id: default
+    links:
+      - id: welcome
+        type: MenuLink
+        properties:
+          icon: HomeOutlined
+          title: Home
+        pageId: welcome
+      - id: new-ticket
+        type: MenuLink
+        properties:
+          icon: AlertOutlined
+          title: New ticket
+        pageId: new-ticket
+      - id: users
+        type: MenuLink
+        properties:
+          icon: UserOutlined
+          title: Users
+        pageId: users
+
+pages:
+  - _ref: new-ticket.yaml
+  - _ref: users.yaml
+  - _ref: welcome.yaml
