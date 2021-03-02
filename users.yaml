@@ -9,7 +9,7 @@ requests:
     type: AxiosHttp
     connectionId: jsonplaceholder_api
     properties:
-      url: http://jsonplaceholder.typicode.com/users/1
+      url: http://jsonplaceholder.typicode.com/users
 events:
   onInit:
     - id: fetch_data # Fetch the request data before the page renders in order to populate the charts
@@ -38,18 +38,39 @@ areas:
               - id: table
                 type: AgGridAlpine
                 properties:
+                  debug: true
                   theme: basic
                   rowData:
-                    _request: get_users
-                  defaultColDef: # Define default column definitions that apply to all the defined columns
-                    sortable: true # Enables sorting on the columns when the header is clicked
-                    resizable: true # Enables resizing of column widths
-                    filter: true # Enables filtering of the columns using agGrid's default filter
-                  columnDefs: # Define all the columns
-                    - headerName: Name # Display name
-                      field: name # The field name in the data
-                      width: 350
+                    _get:
+                      key: data
+                      from:
+                        _request: get_users
+                  defaultColDef:
+                    sortable: true
+                    resizable: true
+                    filter: true
+                  columnDefs:
+                    - headerName: Name
+                      field: name
+                      width: 280
                     - headerName: Username
                       field: username
-                      width: 100
-  
+                      width: 280
+          - id: user_list
+            type: Descriptions
+            properties:
+              column: 2
+              title: List of users in json placeholder API
+              items:
+                - label: Name
+                  value:
+                    _get:
+                      key: data.name
+                      from:
+                        _request: get_users
+                - label: Username
+                  value:
+                    _get:
+                      key: data.username
+                      from:
+                        _request: get_users
